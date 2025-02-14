@@ -17,7 +17,12 @@ _randomDistributionSeed = _this select 2;    // Weighted random distribution
 _enableCrateFillDebug = _this select 3;      // Boolean to enable debugging logs
 
 // Select a random poptab amount based on weighted probability
-_countPoptabs = _randomDistributionSeed selectRandomWeighted [500, 0.2, 5000, 0.6, 50000, 0.05];
+private _randomRoll = random 1;
+private _countPoptabs = 500; // Default lowest value
+
+if (_randomRoll <= 0.2) then { _countPoptabs = 500; };
+if (_randomRoll > 0.2 && _randomRoll <= 0.8) then { _countPoptabs = 5000; };
+if (_randomRoll > 0.8) then { _countPoptabs = 50000; };
 
 // Store money in crate
 _crate setVariable ["ExileMoney", _countPoptabs, true];
