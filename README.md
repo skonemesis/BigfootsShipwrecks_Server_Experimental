@@ -41,9 +41,9 @@ Most settings can be **customized** in `config.sqf`.
 ✅ **Structured Logging & Debugging** – Logs critical events in `.RPT` files.
 
 ## Roadmap:
-🔹 **Add optional AI guarding crates**.
-🔹 **Improve spawn distribution logic** (e.g., clustered wreck spawns in designated zones).
-🔹 **Adjust loot tables for increased variety & balancing**.
+**Add optional AI guarding crates**.
+**Improve spawn distribution logic** (e.g., clustered wreck spawns in designated zones).
+**Adjust loot tables for increased variety & balancing**.
 
 ## Installation:
 1. **Download & Extract** the mod files.
@@ -64,11 +64,11 @@ Edit `config.sqf` to adjust settings such as:
 ---
 ## **Technical Overview & File Structure**
 ### **1. Initialization & Execution Flow**
-📌 **Startup Process:**
+**Startup Process:**
 - `bootstrap/fn_preInit.sqf` → Preloads functions.
 - `bootstrap/fn_postInit.sqf` → Calls `ExileServer_BigfootsShipwrecks_initialize.sqf` to start the system.
 
-📌 **Spawning & Setup:**
+**Spawning & Setup:**
 - `ExileServer_BigfootsShipwrecks_spawnShipwrecksCommand.sqf`
   - Finds valid ocean locations using `BIS_fnc_findSafePos`.
   - Spawns **wreck objects** and **loot crates**.
@@ -79,13 +79,13 @@ Edit `config.sqf` to adjust settings such as:
     - `addItemsToCrateCommand.sqf` (to spawn loot)
     - `addMoneyToCrateCommand.sqf` (to add poptabs)
 
-📌 **Loot & Poptab Distribution:**
+**Loot & Poptab Distribution:**
 - `ExileServer_BigfootsShipwrecks_addItemsToCrateCommand.sqf`
   - Uses weighted probabilities to spawn random loot.
 - `ExileServer_BigfootsShipwrecks_addMoneyToCrateCommand.sqf`
   - Adds poptabs (currency) to crates based on weighted distribution.
 
-📌 **Marker & Tracking System:**
+**Marker & Tracking System:**
 - `ExileServer_BigfootsShipwrecks_createShipwreckMarkerCommand.sqf`
   - Places **blue map markers** at shipwreck locations.
   - Uses `ExileServer_BigfootsShipwrecks_getWreckIdForSpawnCountIndexQuery.sqf` to create **unique marker IDs**.
@@ -95,25 +95,25 @@ Edit `config.sqf` to adjust settings such as:
 - `ExileServer_BigfootsShipwrecks_sendClientNotificationCommand.sqf`
   - Sends **Exile toast notifications** when crates are discovered.
 
-📌 **Logging & Debugging:**
+**Logging & Debugging:**
 - `ExileServer_BigfootsShipwrecks_util_logCommand.sqf`
   - Logs **shipwreck spawns, loot assignments, and player interactions**.
 
 ---
-### **🎯 Final Notes**
-✅ **All scripts are aligned and working together**.
-✅ **Debugging logs are enabled** for tracking shipwreck events in `.RPT` logs.
-✅ **Configurable settings are centralized in `config.sqf`**.
+### **Final Notes**
+**All scripts are aligned and working together**.
+**Debugging logs are enabled** for tracking shipwreck events in `.RPT` logs.
+**Configurable settings are centralized in `config.sqf`**.
 
-📌 **Next Steps:**
+**Next Steps:**
 1. **Test the system & verify `.RPT` logs** for correct shipwreck behavior.
 2. **Fine-tune loot balance** based on gameplay feedback.
 3. **Expand features (optional AI guards, wreck clustering, etc.)**.
 
 ---
-📢 **For contributors:**
+**For contributors:**
 - Please **keep code structured** and **use logging** for easier debugging.
 - Report any **bugs or balance issues** to the Ghost PGM DEV TEAM.
 
-🚀 Happy Modding! 🚀
+Happy Modding!
 
