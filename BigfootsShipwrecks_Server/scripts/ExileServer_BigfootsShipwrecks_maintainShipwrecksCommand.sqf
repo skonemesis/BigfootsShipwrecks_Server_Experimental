@@ -10,16 +10,12 @@
  * - Monitors active shipwreck locations.
  * - Removes markers when players approach the crate.
  * - Sends global notifications when a crate is found.
- * - Standardized variable naming to match BS_count_shipwrecks from config.sqf
- * - Ensured marker existence check before retrieving position
- * - Added structured comments for clarity
- * - 
+ * - Improved performance & optimized marker deletion.
  *
  * Configurable Variables (Defined in config.sqf):
- * - BS_count_shipwrecks: Number of shipwrecks to track
- * - BS_player_showCrateClaimMessageRadius: Distance at which a crate is detected
- * - BS_player_showCrateClaimMessage: Enables/disables global notifications
- * - Improved logging to help track crate recoveries
+ * - BS_count_shipwrecks: Number of shipwrecks to track.
+ * - BS_player_showCrateClaimMessageRadius: Distance at which a crate is detected.
+ * - BS_player_showCrateClaimMessage: Enables/disables global notifications.
  */
 
 if (!isServer) exitWith {};
@@ -33,32 +29,35 @@ _crateClaimMessageRadius = _this select 1;        // Radius in meters to check f
 _showCrateClaimMessage = _this select 2;          // Boolean: Show notification when a crate is found?
 
 // Loop through all active shipwreck sites
-for "_i" from 1 to BS_count_shipwrecks do
+for "_i" from 1 to _countWrecks do
 {
     // Get marker ID associated with the current wreck index
     _markerId = _i call ExileServer_BigfootsShipwrecks_getWreckIdForSpawnCountIndexQuery;
 
     // Ensure the marker exists before attempting to get its position
-    if (markerExists _markerId) then 
+    if (!isNil "_markerId" && {markerExists _markerId}) then 
     {
         _markerPosition = getMarkerPos _markerId;
 
         // Check if any player is within the specified radius of the wreck
-        _isPlayerInRange = [_markerPosition, _crateClaimMessageRadius] call ExileClient_util_world_isAlivePlayerInRange;
+        _isPlayerInRange = false;
+        {
+            if (_x distance _markerPosition <= _crateClaimMessageRadius) exitWith { _isPlayerInRange = true; };
+        } forEach allPlayers;
 
         if (_isPlayerInRange) then 
         {
             // Log that the crate was found
-            format["Crate found by Allies at [%1].", _markerPosition] call ExileServer_BigfootsShipwrecks_util_logCommand;
+            format["[Shipwrecks] Crate found at %1, removing marker.", _markerPosition] call ExileServer_BigfootsShipwrecks_util_logCommand;
 
-            // Remove the marker to indicate the crate has been recovered
-            deleteMarker _markerId;
+            // Remove the marker
+            deleteMarkerLocal _markerId;
 
             // If enabled, notify all players that the crate has been found
             if (_showCrateClaimMessage) then 
             {
                 _coords = mapGridPosition _markerPosition;
-                _message = format ["Allies have recovered the crashed crate from coordinates %1.", _coords];
+                _message = format ["📢 Allies have recovered the crashed crate at coordinates %1.", _coords];
 
                 // Send notification to clients
                 ["Info", "Shipwreck loot found!", _message] call ExileServer_BigfootsShipwrecks_sendClientNotificationCommand;
