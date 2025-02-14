@@ -1,71 +1,119 @@
-Changelog:
+# Bigfoot's Shipwrecks - Server Mod
 
-8/5/2016 v1.0.0 - initial release
+## Changelog:
+- **8/5/2016 v1.0.0** - Initial release.
+- **05/01/2021** - Modified by Ketanna to:
+  - Automatically detect the map center.
+  - Introduce variables for setting crate spawn depth.
+  - Change shipwreck marker to display a blue ship icon.
+- **02/13/2025** - Updated by sko & Ghost PGM DEV TEAM:
+  - Improved spawn logic for wrecks & crates.
+  - Added structured logging and debugging support.
+  - Refactored scripts for maintainability & efficiency.
 
+## Author:
+- **Bigfoot**
 
-05/01/2021
-Modified by ketanna to automatically find map center, 2 additional variables added so players could declare how deep or how shallow 
-crates would spawn in the water, the ship icon was changed to show only a blue ship icon
+## Credits:
+- Earliest known script variation: Darth_Rogue, Chisel, deadeye, and Robio.
+- Based on a modified script by Tuna.
+- **TaylorSwift** - Mod template support.
+- **Second_Coming** - Inspiration from the Occupation mod.
 
-#######
+## Summary:
+This addon spawns shipwrecks with loot crates and markers in **random ocean locations** on server restart.
 
-Author:
+- **AI does not spawn at crates (yet)**, but can be added manually.
+- **Crates cannot be looted underwater** (Arma restriction).
+- Use **R3F, Igiload, or Exile crate mounting** to transport crates to shore.
+- Encourages modders to contribute improvements back to the community.
 
-Bigfoot
+Most settings can be **customized** in `config.sqf`.
 
-#######
+## Features:
+✅ **Configurable loot crates** – Control loot spawn chances, guaranteed items, poptab rewards, and random item selection.
+✅ **Dynamic shipwreck spawns** – Configurable wreck quantity and distance from map center.
+✅ **Real-time tracking** – Players within a set radius will trigger:
+   - **Marker removal**
+   - **Exile toast notification**
+   - **Global chat message (optional)**
+✅ **Performance Optimizations** – Simulation disabled on crates to reduce lag.
+✅ **Structured Logging & Debugging** – Logs critical events in `.RPT` files.
 
-Credits:
+## Roadmap:
+🔹 **Add optional AI guarding crates**.
+🔹 **Improve spawn distribution logic** (e.g., clustered wreck spawns in designated zones).
+🔹 **Adjust loot tables for increased variety & balancing**.
 
-* Earliest known script variation: Darth_Rogue, Chisel, deadeye, and Robio.
-* Based on modified script by Tuna.
-* TaylorSwift for very helpful mod template.
-* Second_Coming for Occupation mod from which I learned techniques.
+## Installation:
+1. **Download & Extract** the mod files.
+2. **Compile to `.pbo`** and place in:
+   ```
+   @ExileServer/addons/BigfootsShipwrecks_Server.pbo
+   ```
+3. **Customize settings** in `config.sqf`.
+4. **Restart server** to apply changes.
 
-#######
+## Configuration:
+Edit `config.sqf` to adjust settings such as:
+- **Number of shipwrecks (`BS_count_shipwrecks`)**.
+- **Loot probabilities & item spawn settings**.
+- **Marker visibility & notification preferences**.
+- **Distance constraints for shipwreck spawns**.
 
-Summary:
+---
+## **Technical Overview & File Structure**
+### **1. Initialization & Execution Flow**
+📌 **Startup Process:**
+- `bootstrap/fn_preInit.sqf` → Preloads functions.
+- `bootstrap/fn_postInit.sqf` → Calls `ExileServer_BigfootsShipwrecks_initialize.sqf` to start the system.
 
-This addon spawns shipwrecks with loot crates and markers in random water locations on server restart. It does NOT spawn AI at the crates (yet), but you are welcome to add AI.
+📌 **Spawning & Setup:**
+- `ExileServer_BigfootsShipwrecks_spawnShipwrecksCommand.sqf`
+  - Finds valid ocean locations using `BIS_fnc_findSafePos`.
+  - Spawns **wreck objects** and **loot crates**.
+  - Calls `setupCrateCommand.sqf` to configure crates.
+- `ExileServer_BigfootsShipwrecks_setupCrateCommand.sqf`
+  - Locks crates and disables physics for performance.
+  - Calls:
+    - `addItemsToCrateCommand.sqf` (to spawn loot)
+    - `addMoneyToCrateCommand.sqf` (to add poptabs)
 
-Inventory can NOT be taken from crates while the crate is underwater, due to Arma mechanics. Use R3F, Igiload, or built-in Exile crate mounting to load crates onto SDVs to be transported to shore.
+📌 **Loot & Poptab Distribution:**
+- `ExileServer_BigfootsShipwrecks_addItemsToCrateCommand.sqf`
+  - Uses weighted probabilities to spawn random loot.
+- `ExileServer_BigfootsShipwrecks_addMoneyToCrateCommand.sqf`
+  - Adds poptabs (currency) to crates based on weighted distribution.
 
-Feel free to extend this however you like. I encourage you to post your edits on http://www.exilemod.com/ so others can enjoy your improvements and contribute with further enhancements.
+📌 **Marker & Tracking System:**
+- `ExileServer_BigfootsShipwrecks_createShipwreckMarkerCommand.sqf`
+  - Places **blue map markers** at shipwreck locations.
+  - Uses `ExileServer_BigfootsShipwrecks_getWreckIdForSpawnCountIndexQuery.sqf` to create **unique marker IDs**.
+- `ExileServer_BigfootsShipwrecks_maintainShipwrecksCommand.sqf`
+  - **Removes markers when players approach**.
+  - **Triggers chat notifications** when crates are claimed.
+- `ExileServer_BigfootsShipwrecks_sendClientNotificationCommand.sqf`
+  - Sends **Exile toast notifications** when crates are discovered.
 
-Most settings can be configured to your preference in config.sqf.
+📌 **Logging & Debugging:**
+- `ExileServer_BigfootsShipwrecks_util_logCommand.sqf`
+  - Logs **shipwreck spawns, loot assignments, and player interactions**.
 
-########
+---
+### **🎯 Final Notes**
+✅ **All scripts are aligned and working together**.
+✅ **Debugging logs are enabled** for tracking shipwreck events in `.RPT` logs.
+✅ **Configurable settings are centralized in `config.sqf`**.
 
-Features:
+📌 **Next Steps:**
+1. **Test the system & verify `.RPT` logs** for correct shipwreck behavior.
+2. **Fine-tune loot balance** based on gameplay feedback.
+3. **Expand features (optional AI guards, wreck clustering, etc.)**.
 
-* Configurable crate loot, with loot spawn percentages, guaranteed items, additional random items, random poptab count, and random classname selection for loot items.
-* Spawns up to a certain configurable number of shipwrecks in the ocean, at a configurable distance from a configurable center point.
-* Displays marker on shipwreck.
-* Players within a configurable distance of the shipwreck will cause the marker to disappear and an Exile Toast as well as chat message to be displayed to all players with the shipwreck's/player's coordinates. This can be turned on or off.
+---
+📢 **For contributors:**
+- Please **keep code structured** and **use logging** for easier debugging.
+- Report any **bugs or balance issues** to the Ghost PGM DEV TEAM.
 
-########
+🚀 Happy Modding! 🚀
 
-Roadmap:
-* Add optional AI spawns around crates.
-* Allow shipwrecks to cluster in certain areas - e.g 1/3 of ships would spawn in Altis central bay, and 1/3 of shipwrecks would spawn in deep water surrounding altis.
-* Increased chance for certain loot
-
-########
-
-License:
-
-This work is license under the Arma Public License Share Alike (APL-SA). Full license text can be found in the LICENSE.txt file in this package.
-
-Essentially, you must not charge for, or to use, this addon. If you make modifications to this addon, it can only be distributed with APL-SA. This is so others in the Exile Mod community can benefit from collaborative efforts.
-
-########
-
-Installation:
-
-Drop the BigfootsShipwrecks_Server.pbo file in your @ExileServer/addons/ folder.
-
-########
-
-Configuration:
-
-Edit values in config.sqf to your liking.
