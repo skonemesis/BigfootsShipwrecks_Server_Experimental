@@ -10,6 +10,8 @@
   - Improved spawn logic for wrecks & crates.
   - Added structured logging and debugging support.
   - Refactored scripts for maintainability & efficiency.
+  - Fixed poptab reward logic using `randomRoll` method.
+  - Standardized config variable names and descriptions.
 
 ## Author:
 - **Bigfoot**
@@ -31,19 +33,19 @@ This addon spawns shipwrecks with loot crates and markers in **random ocean loca
 Most settings can be **customized** in `config.sqf`.
 
 ## Features:
-**Configurable loot crates** – Control loot spawn chances, guaranteed items, poptab rewards, and random item selection.
-**Dynamic shipwreck spawns** – Configurable wreck quantity and distance from map center.
-**Real-time tracking** – Players within a set radius will trigger:
+- **Configurable loot crates** – Control loot spawn chances, guaranteed items, poptab rewards, and random item selection.
+- **Dynamic shipwreck spawns** – Configurable wreck quantity and distance from map center.
+- **Real-time tracking** – Players within a set radius will trigger:
    - **Marker removal**
    - **Exile toast notification**
    - **Global chat message (optional)**
-**Performance Optimizations** – Simulation disabled on crates to reduce lag.
-**Structured Logging & Debugging** – Logs critical events in `.RPT` files.
+- **Performance Optimizations** – Simulation disabled on crates to reduce lag.
+- **Structured Logging & Debugging** – Logs critical events in `.RPT` files.
 
 ## Roadmap:
-**Add optional AI guarding crates**.
-**Improve spawn distribution logic** (e.g., clustered wreck spawns in designated zones).
-**Adjust loot tables for increased variety & balancing**.
+- **Add optional AI guarding crates**.
+- **Improve spawn distribution logic** (e.g., clustered wreck spawns in designated zones).
+- **Adjust loot tables for increased variety & balancing**.
 
 ## Installation:
 1. **Download & Extract** the mod files.
@@ -83,7 +85,7 @@ Edit `config.sqf` to adjust settings such as:
 - `ExileServer_BigfootsShipwrecks_addItemsToCrateCommand.sqf`
   - Uses weighted probabilities to spawn random loot.
 - `ExileServer_BigfootsShipwrecks_addMoneyToCrateCommand.sqf`
-  - Adds poptabs (currency) to crates based on weighted distribution.
+  - Adds poptabs (currency) to crates based on `randomRoll` probability method.
 
 **Marker & Tracking System:**
 - `ExileServer_BigfootsShipwrecks_createShipwreckMarkerCommand.sqf`
@@ -101,9 +103,9 @@ Edit `config.sqf` to adjust settings such as:
 
 ---
 ### **Final Notes**
-**All scripts are aligned and working together**.
-**Debugging logs are enabled** for tracking shipwreck events in `.RPT` logs.
-**Configurable settings are centralized in `config.sqf`**.
+- **All scripts are aligned and working together**.
+- **Debugging logs are enabled** for tracking shipwreck events in `.RPT` logs.
+- **Configurable settings are centralized in `config.sqf`**.
 
 **Next Steps:**
 1. **Test the system & verify `.RPT` logs** for correct shipwreck behavior.
