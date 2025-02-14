@@ -6,12 +6,17 @@
  * Updated by: sko & Ghost PGM DEV TEAM
  */
 
-"PostInit started..." call ExileServer_BigfootsShipwrecks_util_logCommand;
+format["PostInit started..."] call ExileServer_BigfootsShipwrecks_util_logCommand;
 
 // Load server configuration
-call compile preprocessFileLineNumbers "BigfootsShipwrecks_Server\config.sqf";
+call compile preprocessFileLineNumbers "BigfootsShipwrecks_Server\config\config.sqf";
+
+// Verify that config variables loaded correctly
+if (isNil "BS_count_shipwrecks") exitWith {
+    format["ERROR: Failed to load config.sqf. Shipwreck spawner aborted!"] call ExileServer_BigfootsShipwrecks_util_logCommand;
+};
 
 // Start the shipwreck spawning system
 [] call ExileServer_BigfootsShipwrecks_initialize;
 
-"PostInit finished" call ExileServer_BigfootsShipwrecks_util_logCommand;
+format["PostInit finished"] call ExileServer_BigfootsShipwrecks_util_logCommand;
