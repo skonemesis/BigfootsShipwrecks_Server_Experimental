@@ -29,7 +29,7 @@ BS_class_wreckage =
     "Land_Wreck_Carrier_F" // Aircraft carrier wreck
 ];
 
-BS_count_Shipwrecks = 5; // Number of shipwrecks to spawn
+BS_count_shipwrecks = 5; // Standardized name to match usage in scripts
 
 BS_locations_crateWreckOffset = 10; // Distance from wreck to spawn crate.
 
@@ -82,19 +82,19 @@ BS_loot_itemCargo =
     ["Exile_Item_RubberDuck", 0, 2, 14] // Legendary Rubber Duck
 ];
 
-// Broadcast these variables to the server
+// Ensure all variables are broadcasted
+publicVariable "BS_loot_count_poptabs_seed";
+publicVariable "BS_loot_enablePoptabs";
+publicVariable "BS_locations_crateWreckOffset";
+publicVariable "BS_locations_center";
+publicVariable "BS_locations_distance_min";
+publicVariable "BS_locations_distance_max";
 publicVariable "BS_debug_logCrateFill";
 publicVariable "BS_player_showCrateClaimMessage";
 publicVariable "BS_player_showCrateClaimMessageRadius";
 publicVariable "BS_class_crate";
 publicVariable "BS_class_wreckage";
-publicVariable "BS_count_Shipwrecks";
-publicVariable "BS_locations_crateWreckOffset";
-publicVariable "BS_locations_center";
-publicVariable "BS_locations_distance_min";
-publicVariable "BS_locations_distance_max";
-publicVariable "BS_loot_enablePoptabs";
-publicVariable "BS_loot_count_poptabs_seed";
+publicVariable "BS_count_shipwrecks"; // Standardized name
 publicVariable "BS_loot_itemCargo";
 
 /*
