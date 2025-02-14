@@ -25,7 +25,12 @@
 
 if (!isServer) exitWith {};
 
-"Starting initialization..." call ExileServer_BigfootsShipwrecks_util_logCommand;
+// Ensure config variables exist
+if (isNil "BS_count_shipwrecks") exitWith {
+    format["ERROR: Configuration variables not loaded. Initialization aborted!"] call ExileServer_BigfootsShipwrecks_util_logCommand;
+};
+
+format["Starting initialization..."] call ExileServer_BigfootsShipwrecks_util_logCommand;
 
 // Spawns shipwrecks with loot crates at server start
 [
@@ -34,7 +39,6 @@ if (!isServer) exitWith {};
         BS_locations_center,
         BS_locations_distance_min,
         BS_locations_distance_max
-
     ], 
     BS_class_wreckage, // Wreckage class
     BS_class_crate, // Crate class
@@ -44,9 +48,10 @@ if (!isServer) exitWith {};
 ] call ExileServer_BigfootsShipwrecks_spawnShipwrecksCommand;
 
 // Handles marker cleanup and player detection
-uiSleep 5; // TODO: is 15 really needed?
+uiSleep 3; // Reduced from 5 for optimized performance
+
 [
-    10, 
+    15, // Adjusted from 10 to allow better timing
     ExileServer_BigfootsShipwrecks_maintainShipwrecksCommand, 
     [
         BS_count_shipwrecks, 
@@ -56,8 +61,9 @@ uiSleep 5; // TODO: is 15 really needed?
     true
 ] call ExileServer_system_thread_addTask;
 
-"Finished initialization." call ExileServer_BigfootsShipwrecks_util_logCommand;
+format["Finished initialization."] call ExileServer_BigfootsShipwrecks_util_logCommand;
 
-["systemChatRequest", ["Bigfoot's Shipwrecks Initialized"]] call ExileServer_system_network_send_broadcast;
+// Broadcast to all players that the mod is active
+["systemChatRequest", ["[INFO] Bigfoot's Shipwrecks Mod: Shipwreck spawning system initialized."]] call ExileServer_system_network_send_broadcast;
 
 true;
