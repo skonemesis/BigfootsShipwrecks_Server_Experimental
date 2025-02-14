@@ -42,9 +42,9 @@ BS_loot_enablePoptabs = true; // Enable poptab rewards.
 
 BS_loot_count_poptabs_seed = 
 [
-    500,   0.2,  // 20% chance to get 500 poptabs (low-end)
-    5000,  0.6,  // 60% chance to get 5,000 poptabs (common)
-    50000, 0.05  // 5% chance to get 50,000 poptabs (rare jackpot)
+    [500,   0.2],  // 20% chance to get 500 poptabs (low-end)
+    [5000,  0.6],  // 60% chance to get 5,000 poptabs (common)
+    [50000, 0.05]  // 5% chance to get 50,000 poptabs (rare jackpot)
 ];
 
 // Crate loot settings
