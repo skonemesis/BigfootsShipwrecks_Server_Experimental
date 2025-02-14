@@ -31,14 +31,14 @@ This addon spawns shipwrecks with loot crates and markers in **random ocean loca
 Most settings can be **customized** in `config.sqf`.
 
 ## Features:
-✅ **Configurable loot crates** – Control loot spawn chances, guaranteed items, poptab rewards, and random item selection.
-✅ **Dynamic shipwreck spawns** – Configurable wreck quantity and distance from map center.
-✅ **Real-time tracking** – Players within a set radius will trigger:
+**Configurable loot crates** – Control loot spawn chances, guaranteed items, poptab rewards, and random item selection.
+**Dynamic shipwreck spawns** – Configurable wreck quantity and distance from map center.
+**Real-time tracking** – Players within a set radius will trigger:
    - **Marker removal**
    - **Exile toast notification**
    - **Global chat message (optional)**
-✅ **Performance Optimizations** – Simulation disabled on crates to reduce lag.
-✅ **Structured Logging & Debugging** – Logs critical events in `.RPT` files.
+**Performance Optimizations** – Simulation disabled on crates to reduce lag.
+**Structured Logging & Debugging** – Logs critical events in `.RPT` files.
 
 ## Roadmap:
 **Add optional AI guarding crates**.
